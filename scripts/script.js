@@ -3,7 +3,18 @@ $(document).ready(function(){
 	var baseURL = "http://api.wunderground.com/api/";
 	var apiKey = "004ee43afc5c6206";
 	var mySubmit = document.getElementById("button");
-	
+	var maincontent = $("#maincontent");
+	var retrData;
+
+	var dayDate;
+	var newWeekday;
+	var newImg;
+	var newDesc;
+	var highTempDiv;
+	var lowTempDiv;
+
+
+
 	function form (e){
 
 		e.preventDefault();
@@ -39,6 +50,8 @@ $(document).ready(function(){
 		state = document.getElementById("selected").value;
 		fullURL = baseURL + apiKey + "/conditions/forecast/q/" + state + "/" + input + ".json";
 		console.log(e.target);
+		//maincontent = $("#maincontent");
+		// classChange(e);
 		function getData2 (e) { //console.log("I start"); //self check
 			$.ajax({
 				type: "GET",
@@ -46,23 +59,16 @@ $(document).ready(function(){
 				timeout: 3000,
 				success: function(data) {
 					console.log(data); //self check
+				    retrData = data;
 
-					// if(e.target)
-					
+					 if(links[0].className == "active") {
+					 	runCurrent(data);
+					}
+					else 
+					{
+						runFourDay(data);
 
-				 targetLoc = data.current_observation.display_location.full;
-				 targetIcon = data.current_observation.icon_url;
-				 iconDesc = data.current_observation.weather;
-				 currTempCel = data.current_observation.temp_c;
-				 currTempFar = data.current_observation.temp_f;
-				 maincontent = $("#maincontent");
-				
-				maincontent.html("<div id='location'>" + targetLoc + "</div>" + 
-				"<br/>" + "<div id='mimg'><img src='" +targetIcon +
-				"'/></div><br/><div id='mdesc'>" + iconDesc +
-				 "</div><br/><div id='mtemp'><h4>Temperature: " +
-				currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>");
-
+					}
 
 				},
 				fail: function() {
@@ -131,8 +137,7 @@ $(document).ready(function(){
 	}
 
 	thumbInfo();
-
-
+	var links = document.getElementsByTagName("a");
 	var myNavBar = document.getElementById("navbar");
 	//console.log(myNavBar);
 	myNavBar.addEventListener("click", classChange, false);
@@ -142,7 +147,7 @@ $(document).ready(function(){
 		var target = e.target;
 		var currClass = target.getAttribute("class");
 		var currActClass = document.getElementsByClassName("active")[0];
-		var links = document.getElementsByTagName("a");
+		// var links = document.getElementsByTagName("a");
 
 		
 		if (currClass == "active") {
@@ -156,10 +161,20 @@ $(document).ready(function(){
 			}
 
 		if (links[0].className == "active") {
-			if(input.value != false) {console.log("pop filed1");} else {console.log("empty1");}
+			if(input.value != false) {runCurrent(retrData);} else {console.log("empty1");}
 		}
 		else if(links[1].className == "active") {
-			if(input.value != false) {console.log("pop field2");} else {console.log("empty2");}
+			if(input.value != false) {
+				// for (var j = 0; j < specsArr.length; j++) {
+				// 		 		newDiv.appendChild(specsArr[j]);
+				// 		 		console.log(specsArr.length);
+				// 		 		maincontent.append(newDiv);
+				// }
+				runFourDay(retrData);
+						 	
+			}		 	// maincontent.append(newDiv);}
+			else 
+			{console.log("empty2");}
 		}
 		else if(links[2].className == "active") {
 			if(input.value != false) {console.log("pop field3");} else {console.log("empty3");}
@@ -167,11 +182,142 @@ $(document).ready(function(){
 		else {
 			if(input.value != false) {console.log("pop field4");} else {console.log("empty4");}
 		}
-		
-		
-			
-			
+
 	}
+
+	function runCurrent (retrData) {
+			//console.log("I run too")
+					 maincontent = $("#maincontent");
+					 maincontent.html("");
+					 targetLoc = retrData.current_observation.display_location.full;
+					 targetIcon = retrData.current_observation.icon_url;
+					 iconDesc = retrData.current_observation.weather;
+					 currTempCel = retrData.current_observation.temp_c;
+					 currTempFar = retrData.current_observation.temp_f;
+					 maincontent = $("#maincontent");
+
+////////////////////////////////////////////////////////////////////
+					
+						// for(i = 0; i < retrData.forecast.simpleforecast.forecastday.length; i++) {
+						// 	currDay = retrData.forecast.simpleforecast.forecastday[i];
+
+						// 	 var month = currDay.date.monthname;
+						// 	 var date = currDay.date.day;
+						// 	 var weekDay = currDay.date.weekday;
+
+						// 	 var foreIconDesc = currDay.conditions;
+						// 	 var foreIconUrl = currDay.icon_url;
+
+						// 	 var highTempCel = currDay.high.celsius;
+						// 	 var highTempFar = currDay.high.fahrenheit;
+
+						// 	 var lowTempCel = currDay.low.celsius;
+						// 	 var lowTempFar = currDay.low.fahrenheit;
+						// // 	 // console.log(document.getElementById("day" + (i+1)));
+
+						//  	 newDiv = document.createElement("div");
+						//  	 dayDate = document.createElement("h3");
+						//  	 newWeekday = document.createElement("h3");
+						//  	 newImg = document.createElement("img");
+						//  	 newDesc = document.createElement("h4");
+						//  	 highTempDiv = document.createElement("h4");
+						//  	 lowTempDiv = document.createElement("h4");
+				
+
+						//  	newDiv.className = "fourdayfore";
+						//  	newImg.setAttribute("src",foreIconUrl);
+						//  	dayDate.innerHTML = month + " " + date;
+						//  	newWeekday.innerHTML = weekDay;
+						//  	newDesc.innerHTML = foreIconDesc;
+						//  	highTempDiv.innerHTML = "High: " + highTempCel +"&#8451; / " + highTempFar + "&#8457;<br/>";
+						//  	lowTempDiv.innerHTML = "Low; " + lowTempCel +"&#8451; / " + lowTempFar + "&#8457;";
+						 	
+
+						//  	specsArr = [dayDate,newWeekday,newImg,newDesc,highTempDiv,lowTempDiv];
+						//  }
+
+//////////////////////////////////////////////////////////////////////////////
+					
+					maincontent.html("<div id='location'>" + targetLoc + "</div>" + 
+					"<br/>" + "<div id='mimg'><img src='" +targetIcon +
+					"'/></div><br/><div id='mdesc'>" + iconDesc +
+					 "</div><br/><div id='mtemp'><h4>Temperature: " +
+					currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>");
+	}
+
+	function runFourDay (retrData) {
+
+		maincontent.html("");
+						//  //console.log("second condition");
+						for(i = 0; i < retrData.forecast.simpleforecast.forecastday.length; i++) {
+							currDay = retrData.forecast.simpleforecast.forecastday[i];
+
+							 var month = currDay.date.monthname;
+							 var date = currDay.date.day;
+							 var weekDay = currDay.date.weekday;
+
+							 var foreIconDesc = currDay.conditions;
+							 var foreIconUrl = currDay.icon_url;
+
+							 var highTempCel = currDay.high.celsius;
+							 var highTempFar = currDay.high.fahrenheit;
+
+							 var lowTempCel = currDay.low.celsius;
+							 var lowTempFar = currDay.low.fahrenheit;
+						// 	 // console.log(document.getElementById("day" + (i+1)));
+
+						 	 newDiv = document.createElement("div");
+						 	 dayDate = document.createElement("h3");
+						 	 newWeekday = document.createElement("h3");
+						 	 newImg = document.createElement("img");
+						 	 newDesc = document.createElement("h4");
+						 	 highTempDiv = document.createElement("h4");
+						 	 lowTempDiv = document.createElement("h4");
+				
+
+						 	newDiv.className = "fourdayfore";
+						 	newImg.setAttribute("src",foreIconUrl);
+						 	dayDate.innerHTML = month + " " + date;
+						 	newWeekday.innerHTML = weekDay;
+						 	newDesc.innerHTML = foreIconDesc;
+						 	highTempDiv.innerHTML = "High: " + highTempCel +"&#8451; / " + highTempFar + "&#8457;<br/>";
+						 	lowTempDiv.innerHTML = "Low; " + lowTempCel +"&#8451; / " + lowTempFar + "&#8457;";
+						 	
+
+						 	specsArr = [dayDate,newWeekday,newImg,newDesc,highTempDiv,lowTempDiv];
+						 
+						 	for (var j = 0; j < specsArr.length; j++) {
+						 		newDiv.appendChild(specsArr[j]);
+						 	}
+						 	
+						 	maincontent.append(newDiv);
+
+						
+						}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 });
 
@@ -180,6 +326,8 @@ $(document).ready(function(){
 // CREATE ACTIVE AND NONACTIVE CLASSES
 // IN FORM, IF 4 DAY IS ACTIVE & TEXTIMPUT=TRUE ELSE...
 // THEN WORRY ABOUT OTHER API CALLS
+
+
 
 
 
