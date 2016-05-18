@@ -2,15 +2,16 @@ $(document).ready(function(){
 
 	var baseURL = "http://api.wunderground.com/api/";
 	var apiKey = "004ee43afc5c6206";
-	var input;
-	var fullURL;
-	var state;
 	var mySubmit = document.getElementById("button");
-	mySubmit.addEventListener("click", form, false);
-
+	
 	function form (e){
 
 		e.preventDefault();
+
+		var input;
+		var fullURL;
+		var state;
+
 	/////////////////////////////CLIENT INPUT STRING MANIPULATION///////////////////////////////////////
 		input = document.getElementById("input").value;
 		input = input.trim();
@@ -56,8 +57,8 @@ $(document).ready(function(){
 				maincontent.html("<div id='location'>" + targetLoc + "</div>" + 
 				"<br/>" + "<div id='mimg'><img src='" +targetIcon +
 				"'/></div><br/><div id='mdesc'>" + iconDesc +
-				 "</div><br/><div id='mtemp'><h4>Temperature: </h4>" +
-				currTempCel + "&#8451;<br/>" + currTempFar + "&#8457;</div>");
+				 "</div><br/><div id='mtemp'><h4>Temperature: " +
+				currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>");
 				},
 				fail: function() {
 					//console.log("fail sucka!"); //self check
@@ -68,7 +69,9 @@ $(document).ready(function(){
 		getData();
 	}
 
+	mySubmit.addEventListener("click", form, false);
 
+//////////////////////////////////RETRIEVING JSON FROM OPENWEATHERMAP API/////////////////////////////////
 	function thumbInfo () {
 		//api.openweathermap.org/data/2.5/weather?q=London
 	// api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=1111111111
@@ -79,10 +82,11 @@ $(document).ready(function(){
 		var mainCities =["San_Francisco","Los_Angeles","New_York","WashingtonDC"];
 		
 		for(var i = 0; i < mainCities.length; i++) {
-			fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=metric" + apiKey; //metric
-			fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=imperial" + apiKey; //imperial
 
-			function getData2 () { console.log("I start"); //self check
+			fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=metric" + apiKey; 
+
+			function getData2 () //{ console.log("I start"); //self check
+
 				var currTile = "tile" + (i+1);
 				var thisTile = document.getElementById(currTile);
 
@@ -126,6 +130,11 @@ $(document).ready(function(){
 
 });
 
+// NEXT STEPS
+//ADD EVENT LISTENER TO THE 4 DAY FORECAST LINK 
+// CREATE ACTIVE AND NONACTIVE CLASSES
+// IN FORM, IF 4 DAY IS ACTIVE & TEXTIMPUT=TRUE ELSE...
+// THEN WORRY ABOUT OTHER API CALLS
 
 
 
