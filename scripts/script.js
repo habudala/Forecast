@@ -38,14 +38,17 @@ $(document).ready(function(){
 	/////////////////////////////RETRIEVING JSON FROM UNDERGROUND WEATHER////////////////////////////////
 		state = document.getElementById("selected").value;
 		fullURL = baseURL + apiKey + "/conditions/forecast/q/" + state + "/" + input + ".json";
-
-		function getData () { //console.log("I start"); //self check
+		console.log(e.target);
+		function getData2 (e) { //console.log("I start"); //self check
 			$.ajax({
 				type: "GET",
 				url: fullURL,
 				timeout: 3000,
 				success: function(data) {
 					console.log(data); //self check
+
+					// if(e.target)
+					
 
 				 targetLoc = data.current_observation.display_location.full;
 				 targetIcon = data.current_observation.icon_url;
@@ -59,6 +62,8 @@ $(document).ready(function(){
 				"'/></div><br/><div id='mdesc'>" + iconDesc +
 				 "</div><br/><div id='mtemp'><h4>Temperature: " +
 				currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>");
+
+
 				},
 				fail: function() {
 					//console.log("fail sucka!"); //self check
@@ -66,7 +71,7 @@ $(document).ready(function(){
 
 			}); 
 		}
-		getData();
+		getData2();
 	}
 
 	mySubmit.addEventListener("click", form, false);
@@ -83,11 +88,11 @@ $(document).ready(function(){
 		
 		for(var i = 0; i < mainCities.length; i++) {
 
-			fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=metric" + apiKey; 
+			fullUrlI = baseURL + "weather?q=" + mainCities[i] + apiKey; 
 
-			function getData2 () //{ console.log("I start"); //self check
+			function getData1 () { //console.log("I start"); //self check
 
-				var currTile = "tile" + (i+1);
+				var currTile = "tile" + (i + 1);
 				var thisTile = document.getElementById(currTile);
 
 				$.ajax({
@@ -105,6 +110,7 @@ $(document).ready(function(){
 					var thumbMainDesc = data.weather[0].description;
 					var thumbIconCode = data.weather[0].icon;
 					var thumbIconUrl = "http://openweathermap.org/img/w/" + thumbIconCode + ".png";
+					//console.log(thumbCity);
 
 					//http://openweathermap.org/img/w/10d.png
 
@@ -119,7 +125,7 @@ $(document).ready(function(){
 				});
 			}
 		
-		getData2();
+		getData1();
 
 		}
 	}
@@ -127,7 +133,46 @@ $(document).ready(function(){
 	thumbInfo();
 
 
+	var myNavBar = document.getElementById("navbar");
+	//console.log(myNavBar);
+	myNavBar.addEventListener("click", classChange, false);
 
+	function classChange (e) {
+
+		var target = e.target;
+		var currClass = target.getAttribute("class");
+		var currActClass = document.getElementsByClassName("active")[0];
+		var links = document.getElementsByTagName("a");
+
+		
+		if (currClass == "active") {
+			//console.log("wassuuup??");
+			}
+			else{
+			currActClass.className = "passive";
+			target.removeAttribute("class");
+			target.className = "active";
+			//console.log(target)
+			}
+
+		if (links[0].className == "active") {
+			if(input.value != false) {console.log("pop filed1");} else {console.log("empty1");}
+		}
+		else if(links[1].className == "active") {
+			if(input.value != false) {console.log("pop field2");} else {console.log("empty2");}
+		}
+		else if(links[2].className == "active") {
+			if(input.value != false) {console.log("pop field3");} else {console.log("empty3");}
+		}
+		else {
+			if(input.value != false) {console.log("pop field4");} else {console.log("empty4");}
+		}
+		
+		
+			
+			
+	}
+		
 });
 
 // NEXT STEPS
@@ -135,7 +180,6 @@ $(document).ready(function(){
 // CREATE ACTIVE AND NONACTIVE CLASSES
 // IN FORM, IF 4 DAY IS ACTIVE & TEXTIMPUT=TRUE ELSE...
 // THEN WORRY ABOUT OTHER API CALLS
-
 
 
 
