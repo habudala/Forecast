@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather Forecast 3.0</title>
+	<style type="text/css">
+
+	body {
+					margin:0;
+					padding:0;
+		}
+
+	#imgcontainer {
+					/*border: 7px inset grey;*/
+				  	 overflow: hidden;
+				  	 width:100vw;
+				  	 height: 150vh;
+				  	 z-index: -5;
+				  	}
+
+	#imgcontainer img {
+					animation: kenburns 45s infinite;
+				   	}
+
+	@keyframes kenburns {
+
+					0% {opacity: 0.5;}
+					25% {opacity: 0.6;}
+					50% {opacity: 0.7;transform: scale3d(1.2, 1.2, 1.2); animation-timing-function: linear;}
+					75% {opacity: 0.6; }
+					100% {opacity: 0.5; }
+								}
+
+	#appcontainer {
+				   position:absolute;
+		   		   height:100vh;
+		   		   width:100vw;
+		   		   top:0px;
+		   		  }
+
+	#title {
+		   			text-align:center;
+		   			margin-top:-10px;
+			}
+
+	h1    {
+					font-size:50px; 
+					font-family: times; 
+					color: rgba(255,255,255,0.5);
+				 	text-shadow: 3px 3px 6px black;  
+		 	 }
+
+	#form {
+					text-align:center;
+			 	    margin:auto;
+			      	margin-top:140px;
+	      }
+
+	#input {
+					padding:8px;
+					 border-radius:10px; 
+					 width:175px; 
+					 font-size:15px;
+			}
+
+	#button {
+					 padding:7px;
+			 		border-radius:7px; 
+					font-size: 13px; 
+			 		background-color: rgba(5,100,150,0.1);
+					color:white; font-weight:bold;
+		}
+
+	#navbar {		margin: auto; text-align: center;margin-top:10px;}
+
+	ul {			list-style:none; text-align: center; padding:0; font-weight:bold;}
+
+	li {
+					 display:inline-block;
+					 font-size: 20px;
+					 padding: 5px 15px;
+					 margin: 0px 13px;
+					 border-radius: 20px;
+					 background-color:rgba(255,255,255,0.3);
+					 box-shadow: 0px 0px 25px 10px  rgba(255,255,255,0.3);
+		}
+
+	li > a  {text-decoration:none;color:#19334d;}
+
+	li > a:hover  {		
+					 text-decoration:line-through;
+			 		 color:#19334d;
+			 		 background-color:rgba(255,255,255,0.5);
+					 box-shadow: 0px 0px 30px 15px  rgba(255,255,255,0.5);}
+
+	#maincontainer {height:100vh;
+					background-color:rgba(5,100,150,0.3);
+					box-shadow: 0px 0px 25px 10px  rgba(5,100,150,0.4);
+					border-radius: 13px;
+					margin: 20px 30px;
+					position:relative;}
+
+	#leftcolumn  { height:80vh; 
+					width:40vh;
+				    border:1px solid black;
+				    display: inline-block;
+				    position:absolute;
+				    left:20px;
+				    top:10vh;
+
+	}
+
+	#rightcolumn  { height:80vh;
+					width:40vh;
+					border:1px solid black;
+					display: inline-block; 
+					position:absolute;
+					right:20px;
+					top:10vh;
+
+	}
+
+
+
+	</style>
+</head>
+<body>
+
+<div>
+	<div id="imgcontainer">
+	<img src="Images/bg3.jpg"/>
+	</div>
+
+	<div id="appcontainer">
+		<div id="title"><h1>Find the Weather No Matter Where You Are</h1></div>
+		<div id="form">
+			<form>
+				
+				<input type="text" placeholder="Search by City or Zip.." id="input" />
+				<select size="1" id="selected">
+						
+					<option>AL</option> <option>AK</option> <option>AZ</option> <option>AR</option>
+					<option>CA</option> <option>CO</option> <option>CT</option> <option>DE</option>
+					<option>FL</option> <option>GA</option> <option>HI</option> <option>ID</option>
+					<option>IL</option> <option>IN</option> <option>IA</option> <option>KS</option>
+					<option>KY</option> <option>LA</option> <option>ME</option> <option>MD</option>
+					<option>MA</option> <option>MI</option> <option>MN</option> <option>MS</option>
+					<option>MO</option> <option>MT</option> <option>NE</option> <option>NV</option>
+					<option>NH</option> <option>NJ</option> <option>NM</option> <option>NY</option>
+					<option>NC</option> <option>ND</option> <option>OH</option> <option>OK</option>
+					<option>OR</option> <option>PA</option> <option>RI</option> <option>SC</option>
+					<option>SD</option> <option>TN</option> <option>TX</option> <option>UT</option>
+					<option>VT</option> <option>VA</option> <option>WA</option> <option>WV</option>
+					<option>WI</option> <option>WY</option>
+							
+				</select>
+					
+				<input type="submit" value="Search" id="button"/>
+			
+			</form>	
+		</div>
+		<div id="navbar">
+			<ul>
+				<li><a href="#">Current Weather</a></li>
+				<li><a href="#">4-Day Forecast</a></li>
+				<li><a href="#">10-Day Forecast</a></li>
+				<li><a href="#">Extras</a></li>
+			</ul>
+		</div>
+		<div id="maincontainer">
+
+			<div id="leftcolumn">
+				<div>
+				</div>
+				<div>
+				</div>
+			</div>
+			<div id="rightcolumn">
+				<div>
+				</div>
+				<div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+
+
+</div>
+
+</body>
+</html>
