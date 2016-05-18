@@ -21,7 +21,7 @@
 
 					0% {opacity: 0.5;}
 					25% {opacity: 0.6;}
-					50% {opacity: 0.7;transform: scale3d(1.2, 1.2, 1.2); animation-timing-function: linear;}
+					50% {opacity: 0.7;transform: scale3d(1.2, 1.2, 1.2); animation-timing-function: ease-in-out;}
 					75% {opacity: 0.6; }
 					100% {opacity: 0.5; }
 								}
@@ -127,31 +127,42 @@
 
 	}
 
-	#lefttop {background-color:rgba(5,100,150,0.5);
+	#tile1 {background-color:rgba(5,100,150,0.5);
 			   height:38vh;
 			   border:1px solid black;
 				    border-radius: 20px;
 	}
 
-	#leftbottom {height:38vh;
+	#tile2 {height:38vh;
 				background-color:rgba(5,100,150,0.5);
 				 border:1px solid black;
 				    border-radius: 20px;
 				    margin-top:20px;
 	}
 
-	#righttop {background-color:rgba(5,100,150,0.5);
+	#tile3 {background-color:rgba(5,100,150,0.5);
 				 border:1px solid black;
 				    border-radius: 20px;
 				    height:38vh;
 	}
 
-	#rightbottom {background-color:rgba(5,100,150,0.5);
+	#tile4 {background-color:rgba(5,100,150,0.5);
 				   border:1px solid black;
 				    border-radius: 20px;
 				    height:38vh;
 				    margin-top:20px;
 	}
+
+	#tname { text-align: center; font-size:1.3em; color:white; margin-top:10px;}
+
+	#timg { text-align:center;  }
+
+	#timg >img { width:7vw;  }
+
+	#tdesc {text-align: center; color:white; margin-top:10px;}
+
+	#ttemp {text-align:center; color:white; margin-top:10px;}
+
 
 
 

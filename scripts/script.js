@@ -1,8 +1,6 @@
 $(document).ready(function(){
 
-
-
-var baseURL = "http://api.wunderground.com/api/";
+	var baseURL = "http://api.wunderground.com/api/";
 var apiKey = "004ee43afc5c6206";
 var input;
 var fullURL;
@@ -42,25 +40,77 @@ function form (e){
 
 	function getData () { //console.log("I start"); //self check
 		$.ajax({
-		type: "GET",
-		url: fullURL,
-		timeout: 3000,
-		success: function(data) {
-			console.log(data); //self check
+			type: "GET",
+			url: fullURL,
+			timeout: 3000,
+			success: function(data) {
+				console.log(data); //self check
 
-		},
-		fail: function() {
-			//console.log("fail sucka!"); //self check
-		}
+			},
+			fail: function() {
+				//console.log("fail sucka!"); //self check
+			}
 
-		});
-	
-	
-
-	 
+		}); 
 	}
 	getData();
 }
+
+
+function thumbInfo () {
+	//api.openweathermap.org/data/2.5/weather?q=London
+// api.openweathermap.org/data/2.5/forecast/city?id=524901&APPID=1111111111
+	var baseURL = "http://api.openweathermap.org/data/2.5/";
+	var apiKey = "&APPID=8bc0abd3d79d29fd03b0be4c4fbe5b71";
+	var fullUrlI; //current conditions
+
+	var mainCities =["San_Francisco","Los_Angeles","New_York","WashingtonDC"];
+	
+	for(var i = 0; i < mainCities.length; i++) {
+		fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=metric" + apiKey; //metric
+		fullUrlI = baseURL + "weather?q=" + mainCities[i] + "=imperial" + apiKey; //imperial
+
+		function getData2 () { console.log("I start"); //self check
+			var currTile = "tile" + (i+1);
+			var thisTile = document.getElementById(currTile);
+
+			$.ajax({
+				type: "GET",
+				url: fullUrlI,
+				timeout: 3000,
+				success: function(data) {
+
+				console.log(data); //self check
+
+				var thumbCity = data.name;
+				var thumbTempKel = data.main.temp;
+				var thumbTempCel = thumbTempKel - 273.15;
+				var thumbTempFar = thumbTempCel * 1.8 + 32;
+				var thumbMainDesc = data.weather[0].description;
+				var thumbIconCode = data.weather[0].icon;
+				var thumbIconUrl = "http://openweathermap.org/img/w/" + thumbIconCode + ".png";
+
+				//http://openweathermap.org/img/w/10d.png
+
+				thisTile.innerHTML = "<div id='tname'>" + thumbCity + "</div><br/><div id='timg'><img src='" +
+				thumbIconUrl +"' /></div><br/><div id='tdesc'>" + thumbMainDesc + 
+				"</div><div id='ttemp'>Temperature: " +
+			    thumbTempCel + "/ " + thumbTempFar + "</div>" 
+				},
+				fail: function() {
+				//console.log("fail sucka!"); //self check
+				}
+			});
+		}
+	
+	getData2();
+
+	}
+}
+
+thumbInfo();
+
+
 
 });
 
