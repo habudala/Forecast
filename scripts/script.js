@@ -6,9 +6,9 @@ $(document).ready(function(){
 	var links = document.getElementsByTagName("a");
 
 
-	var maincontent = $("#maincontent");
+	var maincontent = document.getElementById("maincontent");
 	var retrData;
-	var retr2Data;
+	var retrData2;
 	var dayDate;
 	var newWeekday;
 	var newImg;
@@ -28,6 +28,7 @@ $(document).ready(function(){
 		var state;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////CLIENT INPUT STRING MANIPULATION///////////////////////////////////////
+
 		input = document.getElementById("input").value;
 		input = input.trim();
 		firstLetter = input.substring(0,1);
@@ -73,13 +74,14 @@ $(document).ready(function(){
 					success: function(data) {
 						console.log(data); //self check
 					    retrData = data;
+					    console.log(retrData);
 
 						 if(links[0].className == "active") {
-						 	runCurrent(data);
+						 	runCurrent(retrData);
 						}
 						else 
 						{
-							runFourDay(data);
+							runFourDay(retrData);
 						}
 
 					},
@@ -98,7 +100,9 @@ $(document).ready(function(){
 					timeout: 3000,
 					success: function(data) {
 						console.log(data); //self check
-					    retr2Data = data;
+					    retrData2 = data;
+					    runTenDay(retrData2);
+
 
 					},
 					fail: function() {
@@ -194,17 +198,21 @@ $(document).ready(function(){
 
 
 		if (links[0].className == "active") {
-			if(input.value != false) {runCurrent(retrData);} else {console.log("empty1");}
+			if(input.value != false) {form(e);} else {console.log("empty1");}
 		}
 		else if(links[1].className == "active") {
-			if(input.value != false) {runFourDay(retrData);}else {console.log("empty2");}
+			if(input.value != false) {form(e);}else {console.log("empty2");}
 		}
 		else if(links[2].className == "active") {
-			if(input.value != false) {console.log("pop field3");} else {console.log("empty3");}
+			if(input.value != false) {form(e); 
+				// document.getElementById("bg").style.height = "300vh";
+				} else {console.log("empty3");}
 		}
 		else {
-			if(input.value != false) {console.log("pop field4");} else {console.log("empty4");}
-		}
+			// if(input.value != false) {
+				alert("Hello there! The site is a project in progress, but thanks for visiting! We appretiate your time."); 
+			// else {console.log("empty4");}
+		 }
 
 	}
 
@@ -212,32 +220,32 @@ $(document).ready(function(){
 	myNavBar.addEventListener("click", classChange, false);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////RETRIEVED JSON DATA MANIPULATION I.//////////////////////////////////////
+///////////////////////////////RETRIEVED JSON DATA MANIPULATION CHAPTER I. (current forecast)//////////////////////////////////////
 
-	function runCurrent (retrData) {
-			//console.log("I run too")
-					 maincontent = $("#maincontent");
-					 maincontent.html("");
+	function runCurrent () {
+			console.log(retrData)
+					
+					 maincontent.innerHTML = "";
 					 targetLoc = retrData.current_observation.display_location.full;
 					 targetIcon = retrData.current_observation.icon_url;
 					 iconDesc = retrData.current_observation.weather;
 					 currTempCel = retrData.current_observation.temp_c;
 					 currTempFar = retrData.current_observation.temp_f;
-					 maincontent = $("#maincontent");
+					 
 					
-					maincontent.html("<div id='location'>" + targetLoc + "</div>" + 
+					maincontent.innerHTML = "<div id='location'>" + targetLoc + "</div>" + 
 					"<br/>" + "<div id='mimg'><img src='" +targetIcon +
 					"'/></div><br/><div id='mdesc'>" + iconDesc +
 					 "</div><br/><div id='mtemp'><h4>Temperature: " +
-					currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>");
+					currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>";
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////RETRIEVED JSON DATA MANIPULATION II. ////////////////////////////////////
+//////////////////////////////RETRIEVED JSON DATA MANIPULATION CHAPTER II. (4-day forecast) ////////////////////////////////////
 
-	function runFourDay (retrData) {
+	function runFourDay () {
 
-			maincontent.html("");
+			maincontent.innerHTML = "";
 					
 			for(i = 0; i < retrData.forecast.simpleforecast.forecastday.length; i++) {
 				currDay = retrData.forecast.simpleforecast.forecastday[i];
@@ -280,9 +288,42 @@ $(document).ready(function(){
 					newDiv.appendChild(specsArr[j]);
 				}
 						 	
-				maincontent.append(newDiv);
+				maincontent.appendChild(newDiv);
 						
 			}
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////RETRIEVED JSON DATA MANIPULATION CHAPTER III. (ten day forecast) ////////////////////////////////////
+
+	function runTenDay () {
+
+		maincontent.innerHTML = "";
+		var tenDaysArr = retrData2.forecast.simpleforecast.forecastday;;
+		for (var k = 0; k < tenDaysArr.length; k++) {
+
+			var tenDMonth = tenDaysArr[k].date.monthname;
+			var tenDDay = tenDaysArr[k].date.day;
+			var tenDWeek = tenDaysArr[k].date.weekday;
+			var tenDIcon = tenDaysArr[k].icon_url;
+
+			var tenDHighCel = tenDaysArr[k].high.celsius;
+			var tenDHighF = tenDaysArr[k].high.fahrenheit;
+	
+			var tenDLowCel = tenDaysArr[k].low.celsius;
+			var tenDLowF = tenDaysArr[k].low.celsius;
+
+			maincontent.innerHTML += "<div id='minicont'><h3>" + tenDMonth + " " + tenDDay +
+						 			"</h3><br/><h3>" + tenDWeek + "</h3><br/><img src='" + 
+						 			tenDIcon + "'/><h4> High " + tenDHighCel + 
+						 			"&#8451; / " + tenDHighF + "&#8457; </h4><h4>Low: " + tenDLowCel + 
+						 			"&#8451; / " + tenDLowF + "&#8457;</h4></div>";
+
+						 			console.log(maincontent);
+		}
+
+
 	}
 
 
