@@ -56,7 +56,7 @@ $(document).ready(function(){
 		state = document.getElementById("selected").value;
 		fullURLI = baseURL + apiKey + "/conditions/forecast/q/" + state + "/" + input + ".json";
 		fullURLII = baseURL + apiKey + "/forecast10day/q/" + state + "/" + input + ".json";
-		console.log(e.target);
+		//console.log(e.target);
 		
 		//http://api.wunderground.com/api/004ee43afc5c6206/forecast10day/q/CA/San_Francisco.json
 
@@ -74,7 +74,7 @@ $(document).ready(function(){
 					success: function(data) {
 						console.log(data); //self check
 					    retrData = data;
-					    console.log(retrData);
+					    //console.log(retrData);
 
 						 if(links[0].className == "active") {
 						 	runCurrent(retrData);
@@ -99,7 +99,7 @@ $(document).ready(function(){
 					url: fullURLII,
 					timeout: 3000,
 					success: function(data) {
-						console.log(data); //self check
+						//console.log(data); //self check
 					    retrData2 = data;
 					    runTenDay(retrData2);
 
@@ -147,9 +147,20 @@ $(document).ready(function(){
 					//console.log(data); //self check
 
 					var thumbCity = data.name;
-					var thumbTempKel = data.main.temp;
-					var thumbTempCel = Math.round(Number(thumbTempKel - 273.15));
-					var thumbTempFar = Math.round(Number(thumbTempCel * 1.8 + 32));
+					var thumbTempKelH = data.main.temp_max;
+					var thumbTempKelL = data.main.temp_min;
+					//changing temp from kelvin to celsius and fahrenheit
+					var thumbTempCelH = Math.round(Number(thumbTempKelH - 273.15)); 
+					var thumbTempFarH = Math.round(Number(thumbTempCelH * 1.8 + 32));
+
+					var thumbTempCelL = Math.round(Number(thumbTempKelL - 273.15)); 
+					var thumbTempFarL = Math.round(Number(thumbTempCelL * 1.8 + 32));
+
+					//var tHumid =  data.main.humidity; //extra data if ever needed
+					//var tPress =  data.main.pressure; //extra data if ever needed
+
+
+
 					var thumbMainDesc = data.weather[0].description;
 					var thumbIconCode = data.weather[0].icon;
 					var thumbIconUrl = "http://openweathermap.org/img/w/" + thumbIconCode + ".png";
@@ -159,8 +170,8 @@ $(document).ready(function(){
 
 					thisTile.innerHTML = "<div id='tname'>" + thumbCity + "</div><br/><div id='timg'><img src='" +
 					thumbIconUrl +"' /></div><br/><div id='tdesc'>" + thumbMainDesc + 
-					"</div><div id='ttemp'>Temperature: " +
-				    thumbTempCel + "&#8451; / " + thumbTempFar + "&#8457;</div>" 
+					"</div><div id='ttemph'>High: " + thumbTempCelH + "&#8451; / " + thumbTempFarH + 
+					"&#8457;</div><div id='ttempl'> Low: " + thumbTempCelL + "&#8451; / " + thumbTempFarL + "&#8457;</div> " 
 					},
 					fail: function() {
 					//console.log("fail sucka!"); //self check
@@ -231,13 +242,20 @@ $(document).ready(function(){
 					 iconDesc = retrData.current_observation.weather;
 					 currTempCel = retrData.current_observation.temp_c;
 					 currTempFar = retrData.current_observation.temp_f;
+
+					 currUv = retrData.current_observation.UV;
+					 currHum = retrData.current_observation.relative_humidity;
+					 currPress = retrData.current_observation.pressure_mb;
+					
 					 
 					
 					maincontent.innerHTML = "<div id='location'>" + targetLoc + "</div>" + 
 					"<br/>" + "<div id='mimg'><img src='" +targetIcon +
 					"'/></div><br/><div id='mdesc'>" + iconDesc +
-					 "</div><br/><div id='mtemp'><h4>Temperature: " +
-					currTempCel + "&#8451;<br/>" + currTempFar + "&#8457; <h4></div>";
+					 "</div><br/><div id='minfo'><h4>Temperature: " +
+					currTempCel + "&#8451; / " + currTempFar + "&#8457; </h4><h4 id= 'uv'> UV index : " + 
+					currUv + "</h4 id='humid'> Humidity: " + currHum + " %</h4><h4 id='press'>Pressure: " + 
+					currPress	+ " mb</h4></div>";
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,7 +297,7 @@ $(document).ready(function(){
 				newWeekday.innerHTML = weekDay;
 				newDesc.innerHTML = foreIconDesc;
 				highTempDiv.innerHTML = "High: " + highTempCel +"&#8451; / " + highTempFar + "&#8457;<br/>";
-				lowTempDiv.innerHTML = "Low; " + lowTempCel +"&#8451; / " + lowTempFar + "&#8457;";
+				lowTempDiv.innerHTML = "Low: " + lowTempCel +"&#8451; / " + lowTempFar + "&#8457;";
 						 	
 
 				specsArr = [dayDate,newWeekday,newImg,newDesc,highTempDiv,lowTempDiv];
@@ -312,7 +330,7 @@ $(document).ready(function(){
 			var tenDHighF = tenDaysArr[k].high.fahrenheit;
 	
 			var tenDLowCel = tenDaysArr[k].low.celsius;
-			var tenDLowF = tenDaysArr[k].low.celsius;
+			var tenDLowF = tenDaysArr[k].low.fahrenheit;
 
 			maincontent.innerHTML += "<div id='minicont'><h3>" + tenDMonth + " " + tenDDay +
 						 			"</h3><br/><h3>" + tenDWeek + "</h3><br/><img src='" + 
