@@ -1,0 +1,9 @@
+### Re-created the Weather App With Major Updates
+
+#### I am pulling information from two different databases (underground weather and openweather app),
+	 because underground weather has a very limited call per minute limit, and the information the app is constantly displaying (4 major cities in east and west US) would take up all the calls I'm allowwed there, but this way, I get information from two different sources.
+
+#### I apply animation to the app background so the clouds appear to move.
+
+#### I hook up the menu system (navbar so it either filters the search by that category if the call 	 was not yet made, or it alters the current search parameters ).
+#### Quick note, the app only works properly in the US due to the lack of people's imaginations when it comes to coming up new names for cities. Since there are 10 different Saint Peterburgs in the US only, I had to limit the pool. Tip for future: improve search.
