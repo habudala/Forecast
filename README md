@@ -7,3 +7,10 @@
 
 #### I hook up the menu system (navbar so it either filters the search by that category if the call 	 was not yet made, or it alters the current search parameters ).
 #### Quick note, the app only works properly in the US due to the lack of people's imaginations when it comes to coming up new names for cities. Since there are 10 different Saint Peterburgs in the US only, I had to limit the pool. Tip for future: improve search.
+
+#### I intend to use some sort of a search based on city IDs which grants the most accurate results.
+If it's combined with eg. auto fill in where the user could choose their specific city based on some other parameters it could enble world wide search.
+
+I am using jQuery's Ajax method to get access to the weatehr data sored in the above mentioned entities databases. My results are just as accurete as their's are.
+
+#### Also, tip for future : more styling to the main current weather page...
